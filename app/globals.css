@@ -1,0 +1,14 @@
+:root { --fg: #111; --muted: #666; --line: #e3e3e3; --accent: #2a5bd7; --bg: #fff; --err: #c0262d; --ok: #18794e; }
+@media (prefers-color-scheme: dark) { :root { --fg: #eee; --muted: #999; --line: #333; --accent: #7aa2ff; --bg: #111; --err: #ff6b6b; --ok: #4ade80; } }
+body { font-family: system-ui, sans-serif; color: var(--fg); background: var(--bg); max-width: 720px; margin: 32px auto; padding: 0 16px; line-height: 1.5; }
+nav { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+nav .who { margin-left: auto; color: var(--muted); font-size: 14px; }
+a { color: var(--accent); }
+section { border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin: 16px 0; }
+section h2 { margin-top: 0; font-size: 18px; }
+form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+input { padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; }
+button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; cursor: pointer; }
+.err { color: var(--err); } .ok { color: var(--ok); } .muted { color: var(--muted); }
+code, pre { font-size: 13px; }
+ul { padding-left: 20px; }

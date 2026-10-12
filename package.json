@@ -1,0 +1,27 @@
+{
+  "name": "voult-next-e2e",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end test app for @voult/next: every feature in a real Next.js app, driven by Playwright against a stateful fake Voult (or staging).",
+  "scripts": {
+    "fake-voult": "node fake-voult/server.mjs",
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:report": "playwright show-report"
+  },
+  "dependencies": {
+    "@simplewebauthn/browser": "^14.0.0",
+    "@voult/next": "^0.1.1",
+    "@voult/react": "^0.2.0",
+    "@voult/sdk": "^0.2.1",
+    "next": "^16.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0"
+  }
+}
