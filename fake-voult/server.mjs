@@ -104,6 +104,11 @@ function providerPage(provider, params) {
   return `${SELF}/__provider/${provider}?${new URLSearchParams(params)}`;
 }
 
+// Like Voult API 1.4: the passkey domain is the page's (the origin @voult/core sends, else the
+// app's one allowlisted callback), never Voult's own host. A fake that hard-coded 'localhost'
+// is how the real API's RP ID bug went unnoticed.
+const rpIdFor = (body) => new URL(body.origin ?? ALLOWED_CALLBACK).hostname;
+
 const sameOrigin = (a, b) => {
   try { return new URL(a).origin === new URL(b).origin; } catch { return false; }
 };
@@ -353,7 +358,7 @@ const server = http.createServer(async (req, res) => {
       deviceName: body.deviceName,
       options: {
         challenge: b64url(crypto.randomBytes(32)),
-        rp: { name: 'Voult E2E', id: 'localhost' },
+        rp: { name: 'Voult E2E', id: rpIdFor(body) },
         user: { id: b64url(Buffer.from(who.user.id)), name: who.user.email, displayName: who.user.fullName },
         pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
         timeout: 60_000,
@@ -382,7 +387,7 @@ const server = http.createServer(async (req, res) => {
     if (method === 'DELETE') { db.passkeys.delete(passkey.id); return send(200, { message: 'Passkey deleted' }); }
   }
   if (route('POST', '/api/auth/webauthn/login/options')) {
-    return send(200, { message: 'Complete login', options: { challenge: b64url(crypto.randomBytes(32)), rpId: 'localhost', allowCredentials: [], userVerification: 'preferred', timeout: 60_000 } });
+    return send(200, { message: 'Complete login', options: { challenge: b64url(crypto.randomBytes(32)), rpId: rpIdFor(body), allowCredentials: [], userVerification: 'preferred', timeout: 60_000 } });
   }
   if (route('POST', '/api/auth/webauthn/login/verify')) {
     const passkey = db.passkeys.get(body.credential?.id);
